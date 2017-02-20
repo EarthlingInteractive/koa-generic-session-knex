@@ -25,7 +25,7 @@ const KnexStore = require('koa-generic-session-knex');
 
 // set up Knex in the usual manner
 // for a quick example using the sqlite3 module:
-const knex = new Knex({
+const knex = Knex({
   client: 'sqlite3',
   connection: {
     filename: "./mydb.sqlite"
