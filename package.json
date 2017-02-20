@@ -1,7 +1,7 @@
 {
 	"name": "koa-generic-session-knex",
 	"description": "a knex session store compatible with koa-generic-session",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "Nate Silva <nate@natesilva.com>",
 	"contributors": [
 		"Jared Chapiewsky <chapiewsky@earthlinginteractive.com> (http://earthlinginteractive.com/)"
