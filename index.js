@@ -24,15 +24,19 @@ class KnexStore extends EventEmitter {
 		this.synced = false;
 
 		if (this.options.sync) {
-			this.knex.schema.createTableIfNotExists(this.options.tableName, (table) => {
-				table.string('id', 100).primary();
-				table.text('data');
-				table.bigInteger('expires');
-				table.index('expires');
-				if(this.options.timestamps) {
-					table.timestamps();
+			this.knex.schema.hasTable(this.options.tableName)
+			.then((exists) => {
+				if (!exists) {
+					return this.knex.schema.createTableIfNotExists(this.options.tableName, (table) => {
+						table.string('id', 100).primary();
+						table.text('data');
+						table.bigInteger('expires');
+						table.index('expires');
+						if(this.options.timestamps) {
+							table.timestamps();
+						}
+					});
 				}
-
 			})
 				.then(() => {
 					this.synced = true;
