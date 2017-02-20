@@ -2,21 +2,19 @@
 // TypeScript definitions for this module.
 //
 
-export = koa_generic_session_sequelize;
+export = koa_generic_session_knex;
 
-declare class koa_generic_session_sequelize {
-    constructor(sequelize: any, options?: koa_generic_session_sequelize.Settings);
+declare class koa_generic_session_knex {
+    constructor(knex: any, options?: koa_generic_session_knex.Settings);
     get(sid: string): Promise<any>;
     set(sid: string, sess: any, ttl?: number): Promise<any>;
     destroy(sid: string): Promise<any>;
 }
 
-declare namespace koa_generic_session_sequelize {
+declare namespace koa_generic_session_knex {
     export interface Settings {
         /** name of the session table in the db */
         tableName?: string,
-        /** name of the model to be registered with Sequelize */
-        modelName?: string,
         /** if true, create the table if it doesn’t exist */
         sync?: boolean,
         /** if sync is true, how long to wait, in ms, for sync to complete */

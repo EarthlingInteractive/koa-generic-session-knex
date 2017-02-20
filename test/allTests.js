@@ -6,8 +6,8 @@ const fs = require('fs');
 const commonTests = require('./commonTests');
 const ourTests = require('./ourTests');
 const config = require('./config');
-const Sequelize = require('sequelize');
-const SequelizeStore = require('../index.js');
+const Knex = require('knex');
+const KnexStore = require('../index.js');
 
 describe('test/allTests.js', function () {
   if (config.sqlite && config.sqlite.deleteAfterTests) {
@@ -29,15 +29,15 @@ describe('test/allTests.js', function () {
   // run the test suites once for each db engine
   Object.keys(config).forEach(function (dbengine) {
     describe(dbengine, function () {
-      const sequelize = new Sequelize(config[dbengine]);
-      const store = new SequelizeStore(sequelize, { sync: true, tableName: '_sess_test' });
+      const knex = Knex(config[dbengine]);
+      const store = new KnexStore(knex, { sync: true, tableName: '_sess_test' });
 
       after(function () {
-        sequelize.close();
+        knex.destroy();
       });
 
       commonTests(store);
-      ourTests(store, sequelize);
+      ourTests(store, knex);
     });
   });
 });

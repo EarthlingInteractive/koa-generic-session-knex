@@ -43,7 +43,6 @@ app.use(session({
 ### Options
 
  - `tableName` - Name of the session table in the db (default: `Sessions`)
- - `modelName` - Name of the session model to be registered with Knex (default: `Session`)
  - `sync` - Create the sessions table if it doesn’t exist (default: `true`)
  - `syncTimeout` - If `sync` is `true`, how long to wait, in ms, for the sync to complete (default: `3000`)
  - `gcFrequency` - Do garbage collection after approximately this many requests. This deletes expired session data from the table. Set to `0` to never do garbage collection. (default: `10000`, or approximately every 10,000 requests)

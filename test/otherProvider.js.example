@@ -1,6 +1,6 @@
 //
 // Run the common unit tests against a *different* session store provider (i.e., not
-// this koa-generic-session-sequelize, but something else, such as koa-redis).
+// this koa-generic-session-knex, but something else, such as koa-redis).
 //
 
 /* global describe */

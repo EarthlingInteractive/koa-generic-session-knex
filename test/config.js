@@ -15,54 +15,23 @@ config.sqlite = {
   storage: tmp.tmpNameSync(),   // create a temp file for SQLite testing
   deleteAfterTests: true        // and delete that temp file after testing
 };
+config.sqlite = {
+  client: 'sqlite3',
+  connection: {
+    filename: tmp.tmpNameSync()
+  }
+};
 
 // Uncomment and edit any of the following to test against those DBs:
 
-// config.mysql = {
-//   logging: false,
-//   dialect: 'mysql',
-//   host: '<MYSQL HOST NAME>',
-//   username: '<MYSQL USER NAME>',
-//   password: '<MYSQL PASSWORD>',
-//   database: '<MYSQL DB NAME>',
-//   pool: {
-//     max: 50,
-//     min: 1
-//   },
-//   define: {
-//     charset: 'utf8mb4',
-//     collate: 'utf8mb4_unicode_ci'
-//   }
-// };
-
 // config.postgres = {
-//   logging: false,
-//   dialect: 'postgres',
-//   host: '<POSTGRESQL HOST NAME>',
-//   username: '<POSTGRESQL USER NAME>',
-//   password: '<POSTGRESQL PASSWORD>',
-//   database: '<POSTGRESQL DB NAME>',
-//   dialectOptions: {
-//     ssl: true                   // some PostgreSQL hosts require SSL
-//   },
-//   pool: {
-//     max: 50,
-//     min: 1
-//   }
-// };
+//        client: "pg",
+//        connection: {
+//            charset: "utf8",
+//            database: "<POSTGRES DB NAME>",
+//            host: "<POSTGRES HOST NAME>",
+//            password: "<POSTGRES PASSWORD NAME>",
+//            user: "<POSTGRES USER NAME>",
+//        }
+//    };
 
-// config.mssql = {
-//   logging: false,
-//   dialect: 'mssql',
-//   host: '<MSSQL HOST NAME>',
-//   username: '<MSSQL USER NAME>',
-//   password: '<MSSQL PASSWORD>',
-//   database: '<MSSQL DB NAME>',
-//   dialectOptions: {
-//     encrypt: true               // Azure, and some MS SQL servers need this
-//   },
-//   pool: {
-//     max: 50,
-//     min: 1
-//   }
-// };

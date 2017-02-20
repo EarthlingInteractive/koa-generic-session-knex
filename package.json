@@ -3,7 +3,7 @@
   "description": "a knex session store compatible with koa-generic-session",
   "version": "0.0.1",
   "author": "Nate Silva <nate@natesilva.com>",
-  "contributors" : ["Jared Chapiewsky <chapiewsky@earthlinginteractive.com> (http://earthlinginteractive.com/)"]
+  "contributors" : ["Jared Chapiewsky <chapiewsky@earthlinginteractive.com> (http://earthlinginteractive.com/)"],
   "main": "index.js",
   "types": "./index.d.ts",
   "scripts": {

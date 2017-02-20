@@ -10,7 +10,7 @@ const co = require('co');
 const should = require('should');
 const uid = require('uid-safe');
 
-module.exports = function (store, sequelize) {
+module.exports = function (store, knex) {
   const sess = { hello: 'howdy' };
   let sid;
 
@@ -24,11 +24,11 @@ module.exports = function (store, sequelize) {
     yield new Promise(resolve => { setTimeout(resolve, 1000); });
     let data = yield store.get(sid);
     should(data).not.be.ok();
-    data = yield sequelize.models.Session.findById(sid);
-    should.exist(data);
+    data = yield knex(store.options.tableName).where('id', sid);
+    should.exist(data[0]);
     const destroyCount = yield store.gc();
     destroyCount.should.be.aboveOrEqual(1);
-    data = yield sequelize.models.Session.findById(sid);
-    should(data).not.be.ok();
+    data = yield knex(store.options.tableName).where('id', sid);
+    should(data.length > 0).not.be.ok();
   }));
 };
