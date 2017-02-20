@@ -60,7 +60,7 @@ class KnexStore extends EventEmitter {
 				}
 				if (Date.now() > end) {
 					clearInterval(timerId);
-					const errMessage = `could not sync() the ${this.options.modelName} model`;
+					const errMessage = `could not sync() the ${this.options.tableName} table`;
 					return reject(new Error(errMessage));
 				}
 			}, 100);
