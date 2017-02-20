@@ -7,7 +7,7 @@ const tmp = require('tmp');
 const config = {};
 module.exports = config;
 
-// SQLite -- doesn’t require a server and should always work
+// sQLite -- doesn’t require a server and should always work
 
 config.sqlite = {
   logging: false,
@@ -17,12 +17,10 @@ config.sqlite = {
 };
 config.sqlite = {
   client: 'sqlite3',
-  connection: {
-    filename: tmp.tmpNameSync()
-  }
+  connection: {filename: tmp.tmpNameSync()}
 };
 
-// Uncomment and edit any of the following to test against those DBs:
+// uncomment and edit any of the following to test against those DBs:
 
 // config.postgres = {
 //        client: "pg",

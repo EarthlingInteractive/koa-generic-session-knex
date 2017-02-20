@@ -1,5 +1,5 @@
 //
-// Tests that only apply to this session store provider.
+// tests that only apply to this session store provider.
 //
 
 /* global it, beforeEach */
@@ -11,14 +11,14 @@ const should = require('should');
 const uid = require('uid-safe');
 
 module.exports = function (store, knex) {
-  const sess = { hello: 'howdy' };
+  const sess = {hello: 'howdy'};
   let sid;
 
-  beforeEach(function () {
+  beforeEach(() => {
     sid = uid.sync(24);
   });
 
-  it('should garbage collect old sessions', co.wrap(function* () {
+  it('should garbage collect old sessions', co.wrap(function *() {
     this.timeout(30000);                // eslint-disable-line no-invalid-this
     yield store.set(sid, sess, 1000);
     yield new Promise(resolve => { setTimeout(resolve, 1000); });

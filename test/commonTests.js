@@ -1,5 +1,5 @@
 //
-// Common tests that can apply to any koa-generic-session store provider.
+// common tests that can apply to any koa-generic-session store provider.
 //
 
 /* global it, beforeEach */
@@ -11,14 +11,14 @@ const should = require('should');
 const uid = require('uid-safe');
 
 module.exports = function (store) {
-  const sess = { hello: 'howdy' };
+  const sess = {hello: 'howdy'};
   let sid;
 
-  beforeEach(function () {
+  beforeEach(() => {
     sid = uid.sync(24);
   });
 
-  it('should set and get ok', co.wrap(function* () {
+  it('should set and get ok', co.wrap(function *() {
     yield store.set(sid, sess, 5000);
     const data = yield store.get(sid);
     sess.should.deepEqual(data);
@@ -28,37 +28,41 @@ module.exports = function (store) {
     data2.value.should.equal(42);
   }));
 
-  it('should set and get non-western text', co.wrap(function* () {
-    const sess = { japanese: '今日は', hindi: 'नमस्ते', hebrew: 'שלום' };
+  it('should set and get non-western text', co.wrap(function *() {
+    const sess = {
+japanese: '今日は',
+hindi: 'नमस्ते',
+hebrew: 'שלום'
+};
     yield store.set(sid, sess, 5000);
     const data = yield store.get(sid);
     sess.should.deepEqual(data);
   }));
 
-  it('should handle non-existent session ids', co.wrap(function* () {
+  it('should handle non-existent session ids', co.wrap(function *() {
     const data = yield store.get('abcdefg');
     should(data).not.be.ok();
   }));
 
-  it('should expire', co.wrap(function* () {
+  it('should expire', co.wrap(function *() {
     this.timeout(3000);                 // eslint-disable-line no-invalid-this
     yield store.set(sid, sess, 1000);
-    yield new Promise(function (resolve) { setTimeout(resolve, 2000); });
+    yield new Promise((resolve) => { setTimeout(resolve, 2000); });
     const data = yield store.get(sid);
     should(data).not.be.ok();
   }));
 
-  it('should destroy ok', co.wrap(function* () {
+  it('should destroy ok', co.wrap(function *() {
     yield store.set(sid, sess, 5000);
     yield store.destroy(sid);
     const data = yield store.get(sid);
     should(data).not.be.ok();
   }));
 
-  it('should handle lots of requests at once', co.wrap(function* () {
+  it('should handle lots of requests at once', co.wrap(function *() {
     this.timeout(30000);                // eslint-disable-line no-invalid-this
 
-    const handleRequest = co.wrap(function* (sid) {
+    const handleRequest = co.wrap(function *(sid) {
       yield store.set(sid, sess, 30000);
       let data = yield store.get(sid);
       sess.should.deepEqual(data);
@@ -74,10 +78,10 @@ module.exports = function (store) {
     yield Promise.all(promises);
   }));
 
-  it('should handle requests where ttl is in the cookie property', co.wrap(function* () {
+  it('should handle requests where ttl is in the cookie property', co.wrap(function *() {
     // koa-generic-session does this. It documents passing ttl as the 3rd param to set()
     // but actually omits that and expects us to use sess.cookie.maxAge.
-    let sess = {
+    const sess = {
       cookie: {
         maxAge: 3600000,
         signed: false,
@@ -91,39 +95,39 @@ module.exports = function (store) {
     this.timeout(5000);                 // eslint-disable-line no-invalid-this
 
     yield store.set(sid, sess, undefined);
-    yield new Promise(function (resolve) { setTimeout(resolve, 1000); });
+    yield new Promise((resolve) => { setTimeout(resolve, 1000); });
     let data = yield store.get(sid);
     sess.should.deepEqual(data);
 
     // test expiration too
     sess.cookie.maxAge = 100;           // one tenth of a second
     yield store.set(sid, sess, undefined);
-    yield new Promise(function (resolve) { setTimeout(resolve, 2000); });
+    yield new Promise((resolve) => { setTimeout(resolve, 2000); });
     data = yield store.get(sid);
     should(data).not.be.ok();
   }));
 
-  it('should handle requests with undefined ttl', co.wrap(function* () {
+  it('should handle requests with undefined ttl', co.wrap(function *() {
     sess.should.not.have.property('cookie');
     yield store.set(sid, sess);
-    yield new Promise(function (resolve) { setTimeout(resolve, 1000); });
-    let data = yield store.get(sid);
+    yield new Promise((resolve) => { setTimeout(resolve, 1000); });
+    const data = yield store.get(sid);
     sess.should.deepEqual(data);
   }));
 
-  it('should handle requests with null ttl', co.wrap(function* () {
+  it('should handle requests with null ttl', co.wrap(function *() {
     sess.should.not.have.property('cookie');
     yield store.set(sid, sess, null);
-    yield new Promise(function (resolve) { setTimeout(resolve, 1000); });
-    let data = yield store.get(sid);
+    yield new Promise((resolve) => { setTimeout(resolve, 1000); });
+    const data = yield store.get(sid);
     sess.should.deepEqual(data);
   }));
 
-  it('should handle requests with 0 ttl', co.wrap(function* () {
+  it('should handle requests with 0 ttl', co.wrap(function *() {
     sess.should.not.have.property('cookie');
     yield store.set(sid, sess, 0);
-    yield new Promise(function (resolve) { setTimeout(resolve, 1000); });
-    let data = yield store.get(sid);
+    yield new Promise((resolve) => { setTimeout(resolve, 1000); });
+    const data = yield store.get(sid);
     sess.should.deepEqual(data);
   }));
 };
