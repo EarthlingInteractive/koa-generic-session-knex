@@ -1,38 +1,41 @@
-# koa-generic-session-sequelize
+# koa-generic-session-knex
 
-Store Koa sessions in a database using Sequelize.
+Store Koa sessions in a database using knex.
 
 ## Usage
 
 This session storage provider works with [koa-generic-session](https://github.com/koajs/generic-session) (session middleware for Koa) and with [koa-session-minimal](https://github.com/longztian/koa-session-minimal) (session middleware for Koa 2).
 
-It stores session data in a database defined by you, using the [Sequelize](http://docs.sequelizejs.com/) ORM.
+It stores session data in a database defined by you, using the [Knex](http://knexjs.org/) query builder.
 
-It has been tested with SQLite, MySQL, PostgreSQL, and Microsoft SQL Server.
+It has been tested with SQLite and PostgreSQL.
+
+Forked and modified from [koa-generic-session-sequelize](https://github.com/natesilva/koa-generic-session-sequelize).
 
 ### Installation
 
-`npm install --save koa-generic-session-sequelize`
+`npm install --save koa-generic-session-knex`
 
 ### Example
 
 Full example in [examples/basic_sqlite.js](examples/basic_sqlite.js).
 
 ```js
-const SequelizeStore = require('koa-generic-session-sequelize');
+const KnexStore = require('koa-generic-session-knex');
 
-// set up Sequelize in the usual manner
+// set up Knex in the usual manner
 // for a quick example using the sqlite3 module:
-const sequelize = new Sequelize({
-  logging: false,
-  dialect: 'sqlite',
-  storage: __dirname + '/example.db'
+const knex = new Knex({
+  client: 'sqlite3',
+  connection: {
+    filename: "./mydb.sqlite"
+  }
 });
 
 app.use(session({
-  store: new SequelizeStore(
-    sequelize,            // pass your sequelize object as the first arg
-    {}                    // pass any config options for sequelizeStore as the second arg (see below)
+  store: new KnexStore(
+    knex,            // pass your knex object as the first arg
+    {}                    // pass any config options for knexStore as the second arg (see below)
   )
 }));
 ```
@@ -40,18 +43,13 @@ app.use(session({
 ### Options
 
  - `tableName` - Name of the session table in the db (default: `Sessions`)
- - `modelName` - Name of the session model to be registered with Sequelize (default: `Session`)
+ - `modelName` - Name of the session model to be registered with Knex (default: `Session`)
  - `sync` - Create the sessions table if it doesn’t exist (default: `true`)
  - `syncTimeout` - If `sync` is `true`, how long to wait, in ms, for the sync to complete (default: `3000`)
  - `gcFrequency` - Do garbage collection after approximately this many requests. This deletes expired session data from the table. Set to `0` to never do garbage collection. (default: `10000`, or approximately every 10,000 requests)
- - `timestamps` - If true, the table will have `updatedAt` and `createdAt` columns. (default: `false`)
+ - `timestamps` - If true, the table will have `updated_at` and `created_at` columns. (default: `false`)
  - `browserSessionLifetime` - How long, in ms, to remember sessions without a TTL: sessions that only last until the browser is closed. Some session managers, including `koa-session-minimal`, will ignore this and use a reasonable default. (default: `86400000`)
 
-### Replication
-
-Sequelize supports replication (configured as `options.replication`). This lets you use one server for writes and another server, or a group of servers, for reads.
-
-However, if there is any lag between the time a write is committed and when it becomes visible on your read servers, you should not use that configuration for session data. Create a separate Sequelize instance for the session data that does not use replication.
 
 ### Unit tests
 
