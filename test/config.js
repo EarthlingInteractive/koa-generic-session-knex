@@ -10,12 +10,6 @@ module.exports = config;
 // sQLite -- doesn’t require a server and should always work
 
 config.sqlite = {
-  logging: false,
-  dialect: 'sqlite',
-  storage: tmp.tmpNameSync(),   // create a temp file for SQLite testing
-  deleteAfterTests: true        // and delete that temp file after testing
-};
-config.sqlite = {
   client: 'sqlite3',
   connection: {filename: tmp.tmpNameSync()}
 };
