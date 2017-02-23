@@ -1,5 +1,7 @@
 # koa-generic-session-knex
 
+[![npm version](https://badge.fury.io/js/koa-generic-session-knex.svg)](https://badge.fury.io/js/koa-generic-session-knex)
+
 Store Koa sessions in a database using knex.
 
 ## Usage
