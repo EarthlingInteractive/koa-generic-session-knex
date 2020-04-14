@@ -27,7 +27,7 @@ class KnexStore extends EventEmitter {
 			this.knex.schema.hasTable(this.options.tableName)
 			.then((exists) => {
 				if (!exists) {
-					return this.knex.schema.createTableIfNotExists(this.options.tableName, (table) => {
+					return this.knex.schema.createTable(this.options.tableName, (table) => {
 						table.string('id', 100).primary();
 						table.text('data');
 						table.bigInteger('expires');
